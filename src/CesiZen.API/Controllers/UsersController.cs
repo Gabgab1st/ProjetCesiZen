@@ -5,89 +5,31 @@ using CesiZen.API.Services.Interfaces;
 
 namespace CesiZen.API.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-[Authorize]
+[ApiController] [Route("api/[controller]")] [Authorize]
 public class UsersController : ControllerBase
 {
     private readonly IUserService _userService;
+    public UsersController(IUserService userService) { _userService = userService; }
+    private int GetCurrentUserId() => int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
 
-    public UsersController(IUserService userService)
-    {
-        _userService = userService;
-    }
-
-    /// <summary>Récupère le profil de l'utilisateur connecté</summary>
     [HttpGet("me")]
-    public async Task<IActionResult> GetMe()
-    {
-        var id = GetCurrentUserId();
-        var user = await _userService.GetByIdAsync(id);
-        return Ok(user);
-    }
+    public async Task<IActionResult> GetMe() { var u = await _userService.GetByIdAsync(GetCurrentUserId()); if (u == null) return NotFound(); return Ok(u); }
 
-    /// <summary>Met à jour le profil de l'utilisateur connecté</summary>
     [HttpPut("me")]
-    public async Task<IActionResult> UpdateMe([FromBody] UpdateUserDto dto)
-    {
-        var id = GetCurrentUserId();
-        var user = await _userService.UpdateAsync(id, dto);
-        return Ok(user);
-    }
+    public async Task<IActionResult> UpdateMe([FromBody] UpdateUserDto dto) { return Ok(await _userService.UpdateAsync(GetCurrentUserId(), dto)); }
 
-    // ─── Admin ───────────────────────────────────────────────────────────────
+    [HttpGet] [Authorize(Roles = "Administrateur")]
+    public async Task<IActionResult> GetAll() { return Ok(await _userService.GetAllAsync()); }
 
-    /// <summary>[Admin] Liste tous les utilisateurs</summary>
-    [HttpGet]
-    [Authorize(Roles = "Administrateur")]
-    public async Task<IActionResult> GetAll()
-    {
-        var users = await _userService.GetAllAsync();
-        return Ok(users);
-    }
+    [HttpPost] [Authorize(Roles = "Administrateur")]
+    public async Task<IActionResult> Create([FromBody] AdminCreateUserDto dto) { var u = await _userService.AdminCreateAsync(dto); return CreatedAtAction(nameof(GetById), new { id = u.UtilisateurId }, u); }
 
-    /// <summary>[Admin] Crée un utilisateur / administrateur</summary>
-    [HttpPost]
-    [Authorize(Roles = "Administrateur")]
-    public async Task<IActionResult> Create([FromBody] AdminCreateUserDto dto)
-    {
-        var user = await _userService.CreateAsync(dto);
-        return CreatedAtAction(nameof(GetById), new { id = user.UtilisateurId }, user);
-    }
+    [HttpGet("{id:int}")] [Authorize(Roles = "Administrateur")]
+    public async Task<IActionResult> GetById(int id) { var u = await _userService.GetByIdAsync(id); if (u == null) return NotFound(); return Ok(u); }
 
-    /// <summary>[Admin] Récupère un utilisateur par son id</summary>
-    [HttpGet("{id:int}")]
-    [Authorize(Roles = "Administrateur")]
-    public async Task<IActionResult> GetById(int id)
-    {
-        var user = await _userService.GetByIdAsync(id);
-        return Ok(user);
-    }
+    [HttpPatch("{id:int}/active")] [Authorize(Roles = "Administrateur")]
+    public async Task<IActionResult> SetActive(int id, [FromBody] bool actif) { await _userService.SetActiveAsync(id, actif); return NoContent(); }
 
-    /// <summary>[Admin] Active / désactive un compte</summary>
-    [HttpPatch("{id:int}/active")]
-    [Authorize(Roles = "Administrateur")]
-    public async Task<IActionResult> SetActive(int id, [FromBody] bool actif)
-    {
-        await _userService.SetActiveAsync(id, actif);
-        return NoContent();
-    }
-
-    /// <summary>[Admin] Supprime un compte</summary>
-    [HttpDelete("{id:int}")]
-    [Authorize(Roles = "Administrateur")]
-    public async Task<IActionResult> Delete(int id)
-    {
-        await _userService.DeleteAsync(id);
-        return NoContent();
-    }
-
-    // ─── Helper ──────────────────────────────────────────────────────────────
-    private int GetCurrentUserId()
-    {
-        var claim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-        if (!int.TryParse(claim, out var id))
-            throw new UnauthorizedAccessException();
-        return id;
-    }
+    [HttpDelete("{id:int}")] [Authorize(Roles = "Administrateur")]
+    public async Task<IActionResult> Delete(int id) { await _userService.DeleteAsync(id); return NoContent(); }
 }
