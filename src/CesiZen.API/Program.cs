@@ -8,6 +8,7 @@ using CesiZen.API.Data.Seed;
 using CesiZen.API.Middleware;
 using CesiZen.API.Services;
 using CesiZen.API.Services.Interfaces;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

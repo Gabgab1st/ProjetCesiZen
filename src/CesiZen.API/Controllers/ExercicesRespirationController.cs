@@ -21,7 +21,7 @@ public class ExercicesRespirationController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> GetAll()
     {
-        var exercices = await _exerciceService.GetAllActiveAsync();
+        var exercices = await _exerciceService.GetAllAsync();
         return Ok(exercices);
     }
 
@@ -31,16 +31,8 @@ public class ExercicesRespirationController : ControllerBase
     public async Task<IActionResult> GetById(int id)
     {
         var exercice = await _exerciceService.GetByIdAsync(id);
+        if (exercice == null) return NotFound();
         return Ok(exercice);
-    }
-
-    /// <summary>[Admin] Liste tous les exercices (actifs + inactifs)</summary>
-    [HttpGet("all")]
-    [Authorize(Roles = "Administrateur")]
-    public async Task<IActionResult> GetAllAdmin()
-    {
-        var exercices = await _exerciceService.GetAllAsync();
-        return Ok(exercices);
     }
 
     /// <summary>[Admin] Crée un exercice</summary>

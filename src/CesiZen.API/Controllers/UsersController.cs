@@ -23,6 +23,7 @@ public class UsersController : ControllerBase
     {
         var id = GetCurrentUserId();
         var user = await _userService.GetByIdAsync(id);
+        if (user == null) return NotFound();
         return Ok(user);
     }
 
@@ -51,7 +52,7 @@ public class UsersController : ControllerBase
     [Authorize(Roles = "Administrateur")]
     public async Task<IActionResult> Create([FromBody] AdminCreateUserDto dto)
     {
-        var user = await _userService.CreateAsync(dto);
+        var user = await _userService.AdminCreateAsync(dto);
         return CreatedAtAction(nameof(GetById), new { id = user.UtilisateurId }, user);
     }
 
@@ -61,6 +62,7 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> GetById(int id)
     {
         var user = await _userService.GetByIdAsync(id);
+        if (user == null) return NotFound();
         return Ok(user);
     }
 
