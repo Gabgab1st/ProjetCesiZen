@@ -21,8 +21,8 @@ public class AuthController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> Register([FromBody] RegisterRequestDto dto)
     {
-        await _authService.RegisterAsync(dto);
-        return Ok(new { message = "Compte créé avec succès." });
+        var result = await _authService.RegisterAsync(dto);
+        return Ok(result);
     }
 
     /// <summary>Connexion – retourne un JWT</summary>
@@ -37,9 +37,19 @@ public class AuthController : ControllerBase
     /// <summary>Réinitialisation du mot de passe</summary>
     [HttpPost("reset-password")]
     [Authorize]
-    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequestDto dto)
     {
-        await _authService.ResetPasswordAsync(dto);
+        var userId = GetCurrentUserId();
+        await _authService.ResetPasswordAsync(userId, dto);
         return Ok(new { message = "Mot de passe modifié avec succès." });
+    }
+
+    // ─── Helper ──────────────────────────────────────────────────────────────
+    private int GetCurrentUserId()
+    {
+        var claim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if (!int.TryParse(claim, out var id))
+            throw new UnauthorizedAccessException();
+        return id;
     }
 }
