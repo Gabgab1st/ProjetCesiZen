@@ -7,6 +7,7 @@ namespace CesiZen.API.DTOs.Pages
         public string Contenu { get; set; } = string.Empty;
         public string Slug { get; set; } = string.Empty;
         public bool IsPublic { get; set; }
+        public int MenuId { get; set; }  // ← ajouter
         public string MenuLibelle { get; set; } = string.Empty;
         public DateTime UpdatedAt { get; set; }
     }

@@ -19,19 +19,18 @@ export class AuthService {
   }
 }
 
-  login(request: LoginRequest): Observable<AuthResponse> {
+ login(request: LoginRequest): Observable<AuthResponse> {
   return this.http.post<AuthResponse>(`${this.apiUrl}/api/auth/login`, request).pipe(
     tap(response => {
       localStorage.setItem('token', response.token);
-      // Construire l'objet utilisateur depuis la réponse
-      const user = {
+      const user: Partial<User> = {
         email: response.email,
-        nomComplet: response.nomComplet,
+        prenom: response.nomComplet?.split(' ')[0] ?? '',
+        nom: response.nomComplet?.split(' ').slice(1).join(' ') ?? '',
         role: response.role,
-        prenom: response.nomComplet?.split(' ')[0] ?? ''
       };
       localStorage.setItem('currentUser', JSON.stringify(user));
-      this.currentUserSubject.next(user as any);
+      this.currentUserSubject.next(user as User);
     })
   );
 }
@@ -59,4 +58,5 @@ resetPassword(dto: { email: string; nouveauMotDePasse: string }): Observable<any
   isAdmin(): boolean {
   return this.currentUserSubject.value?.role === 'Administrateur';
 }
+  
 }

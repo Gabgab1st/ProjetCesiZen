@@ -18,24 +18,27 @@ namespace CesiZen.API.Services
 
         public async Task<IEnumerable<MenuDto>> GetAllAsync()
         {
-            return await _context.Menus
+            var menus = await _context.Menus
                 .Include(m => m.Pages)
                 .OrderBy(m => m.Ordre)
-                .Select(m => new MenuDto
-                {
-                    MenuId = m.MenuId,
-                    Libelle = m.Libelle,
-                    Ordre = m.Ordre,
-                    Pages = m.Pages
-                        .Where(p => p.IsPublic)
-                        .Select(p => new PageInfoDto
-                        {
-                            PageId = p.PageId,
-                            Titre = p.Titre,
-                            Slug = p.Slug
-                        }).ToList()
-                })
                 .ToListAsync();
+
+            return menus.Select(m => new MenuDto
+            {
+                MenuId = m.MenuId,
+                Libelle = m.Libelle,
+                Ordre = m.Ordre,
+                Pages = m.Pages
+                    .Where(p => p.IsPublic)
+                    .Select(p => new PageInfoDto
+                    {
+                        PageId = p.PageId,
+                        Titre = p.Titre,
+                        Slug = p.Slug,
+                        IsPublic = p.IsPublic,
+                        MenuId = p.MenuId,
+                    }).ToList()
+            });
         }
 
         public async Task<MenuDto?> GetByIdAsync(int id)

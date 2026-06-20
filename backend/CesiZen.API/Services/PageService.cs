@@ -90,6 +90,7 @@ namespace CesiZen.API.Services
             Contenu = p.Contenu,
             Slug = p.Slug,
             IsPublic = p.IsPublic,
+            MenuId = p.MenuId, 
             MenuLibelle = p.Menu?.Libelle ?? string.Empty,
             UpdatedAt = p.UpdatedAt
         };

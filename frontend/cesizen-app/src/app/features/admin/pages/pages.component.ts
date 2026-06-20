@@ -121,7 +121,7 @@ export class AdminPagesComponent implements OnInit {
       this.pageForm.markAllAsTouched();
       return;
     }
-
+ console.log('DTO envoyé:', this.pageForm.value);
     this.saving = true;
     this.errorMessage = '';
     const dto = this.pageForm.value;

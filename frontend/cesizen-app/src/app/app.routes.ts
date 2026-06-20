@@ -84,6 +84,12 @@ export const routes: Routes = [
     import('./features/admin/users/users.component').then(
       (m) => m.AdminUsersComponent
     ),
+},{
+  path: 'menus',
+  loadComponent: () =>
+    import('./features/admin/menus/menus.component').then(
+      (m) => m.AdminMenusComponent
+    ),
 },
     ],
   },
