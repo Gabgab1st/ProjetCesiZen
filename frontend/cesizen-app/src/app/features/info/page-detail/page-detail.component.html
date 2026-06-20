@@ -1,1 +1,33 @@
-<p>page-detail works!</p>
+<div class="page-detail-wrapper">
+
+  <!-- Chargement -->
+  <div class="loading-state" *ngIf="loading">
+    <mat-spinner diameter="48"></mat-spinner>
+    <p>Chargement…</p>
+  </div>
+
+  <!-- Erreur -->
+  <div class="error-state" *ngIf="!loading && errorMessage">
+    <mat-icon aria-hidden="true">error_outline</mat-icon>
+    <h2>{{ errorMessage }}</h2>
+    <a mat-stroked-button routerLink="/">Retour à l'accueil</a>
+  </div>
+
+  <!-- Contenu -->
+  <article class="page-content" *ngIf="!loading && page">
+
+    <header class="page-header">
+      <h1 class="page-title">{{ page.titre }}</h1>
+      <p class="page-meta">
+        <mat-icon aria-hidden="true">schedule</mat-icon>
+        Mis à jour le {{ page.updatedAt | date:'d MMMM yyyy' }}
+      </p>
+    </header>
+
+    <mat-divider></mat-divider>
+
+    <div class="page-body" [innerHTML]="page.contenu"></div>
+
+  </article>
+
+</div>

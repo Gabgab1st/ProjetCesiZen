@@ -1,1 +1,115 @@
-<p>exercice-detail works!</p>
+<div class="exercices-wrapper">
+
+  <header class="exercices-header">
+    <h1>Exercices de respiration</h1>
+    <p>La cohérence cardiaque aide à réduire le stress et à retrouver un équilibre émotionnel.</p>
+  </header>
+
+  <!-- Chargement -->
+  <div class="loading-state" *ngIf="loading">
+    <mat-spinner diameter="48"></mat-spinner>
+    <p>Chargement des exercices…</p>
+  </div>
+
+  <!-- Erreur -->
+  <div class="error-banner" *ngIf="!loading && errorMessage" role="alert">
+    <mat-icon aria-hidden="true">error_outline</mat-icon>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <div class="exercices-content" *ngIf="!loading && !errorMessage">
+
+    <!-- Sélection de l'exercice -->
+    <section class="exercice-selector">
+      <h2>Choisir un exercice</h2>
+      <div class="exercice-cards">
+        <button
+          *ngFor="let ex of exercices"
+          class="exercice-card"
+          [class.selected]="selectedExercice?.exerciceId === ex.exerciceId"
+          (click)="onSelectExercice(ex)"
+          [disabled]="isRunning"
+        >
+          <span class="exercice-card-nom">{{ ex.nom }}</span>
+          <span class="exercice-card-detail">
+            {{ ex.dureeInspiration }}s – {{ ex.dureeApnee }}s – {{ ex.dureeExpiration }}s
+          </span>
+          <span class="exercice-card-hint">Inspiration – Apnée – Expiration</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Animation -->
+    <section class="exercice-player" *ngIf="selectedExercice" aria-live="polite">
+
+      <!-- Cercle animé -->
+      <div
+        class="breath-circle"
+        [class.inspiration]="currentPhase === 'inspiration'"
+        [class.apnee]="currentPhase === 'apnee'"
+        [class.expiration]="currentPhase === 'expiration'"
+        [class.repos]="currentPhase === 'repos'"
+        [style.transition-duration]="currentPhase === 'inspiration'
+          ? selectedExercice.dureeInspiration + 's'
+          : currentPhase === 'expiration'
+            ? selectedExercice.dureeExpiration + 's'
+            : '0.3s'"
+        role="img"
+        [attr.aria-label]="phaseLabel"
+      >
+        <div class="breath-inner">
+          <span class="breath-label">{{ phaseLabel }}</span>
+          <span class="breath-countdown" *ngIf="isRunning">{{ countdown }}</span>
+        </div>
+      </div>
+
+      <!-- Cycles -->
+      <p class="cycle-count" *ngIf="isRunning">
+        <mat-icon aria-hidden="true">loop</mat-icon>
+        Cycle {{ cycleCount + 1 }}
+      </p>
+
+      <!-- Contrôles -->
+      <div class="player-controls">
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="!isRunning"
+          (click)="startExercice()"
+          class="control-btn"
+        >
+          <mat-icon>play_arrow</mat-icon>
+          Démarrer
+        </button>
+
+        <button
+          mat-stroked-button
+          color="warn"
+          *ngIf="isRunning"
+          (click)="stopExercice()"
+          class="control-btn"
+        >
+          <mat-icon>stop</mat-icon>
+          Arrêter
+        </button>
+      </div>
+
+      <!-- Résumé de l'exercice sélectionné -->
+      <div class="exercice-summary">
+        <span>
+          <strong>{{ selectedExercice.dureeInspiration }}s</strong> inspiration
+        </span>
+        <span *ngIf="selectedExercice.dureeApnee > 0">
+          · <strong>{{ selectedExercice.dureeApnee }}s</strong> apnée
+        </span>
+        <span>
+          · <strong>{{ selectedExercice.dureeExpiration }}s</strong> expiration
+        </span>
+        <span>· <strong>{{ cycleDuree }}s</strong> par cycle</span>
+      </div>
+
+    </section>
+
+  </div>
+
+</div>

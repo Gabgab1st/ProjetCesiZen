@@ -120,7 +120,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseCors("CesiZenPolicy");
 app.UseAuthentication();
 app.UseAuthorization();

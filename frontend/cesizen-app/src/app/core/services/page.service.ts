@@ -14,10 +14,22 @@ export class PageService {
   }
 
   getBySlug(slug: string): Observable<Page> {
-    return this.http.get<Page>(`${this.apiUrl}/slug/${slug}`);
+    return this.http.get<Page>(`${this.apiUrl}/${slug}`);
   }
 
   getById(id: number): Observable<Page> {
     return this.http.get<Page>(`${this.apiUrl}/${id}`);
+  }
+
+  create(page: Partial<Page>): Observable<Page> {
+    return this.http.post<Page>(this.apiUrl, page);
+  }
+
+  update(id: number, page: Partial<Page>): Observable<Page> {
+    return this.http.put<Page>(`${this.apiUrl}/${id}`, page);
+  }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

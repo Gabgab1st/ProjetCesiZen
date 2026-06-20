@@ -1,0 +1,57 @@
+<div class="home-wrapper">
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1 class="hero-title">Bienvenue sur <span class="brand">CESIZen</span></h1>
+    <p class="hero-subtitle">Votre espace de santé mentale — explorez nos ressources et exercices pour mieux gérer votre stress au quotidien.</p>
+    <button mat-raised-button color="primary" class="hero-btn" (click)="navigateToExercices()">
+      <mat-icon>self_improvement</mat-icon>
+      Essayer un exercice de respiration
+    </button>
+  </section>
+
+  <!-- Chargement -->
+  <div class="loading-state" *ngIf="loading">
+    <mat-spinner diameter="48"></mat-spinner>
+  </div>
+
+  <!-- Erreur -->
+  <div class="error-banner" *ngIf="!loading && errorMessage" role="alert">
+    <mat-icon aria-hidden="true">error_outline</mat-icon>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <!-- Sections par menu -->
+  <section class="menu-section" *ngFor="let menu of menus">
+    <h2 class="section-title">{{ menu.libelle }}</h2>
+
+    <div class="cards-grid">
+      <mat-card
+        *ngFor="let page of menu.pages"
+        class="page-card"
+        (click)="navigateTo(page.slug)"
+        role="button"
+        tabindex="0"
+        (keyup.enter)="navigateTo(page.slug)"
+      >
+        <mat-card-content>
+          <div class="card-icon">
+            <mat-icon aria-hidden="true">article</mat-icon>
+          </div>
+          <h3 class="card-title">{{ page.titre }}</h3>
+          <p class="card-cta">
+            Lire la suite
+            <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </section>
+
+  <!-- État vide -->
+  <div class="empty-state" *ngIf="!loading && menus.length === 0">
+    <mat-icon aria-hidden="true">inbox</mat-icon>
+    <p>Aucun contenu disponible pour le moment.</p>
+  </div>
+
+</div>

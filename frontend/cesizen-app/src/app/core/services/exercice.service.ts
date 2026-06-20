@@ -5,8 +5,7 @@ import { Exercice } from '../../shared/models/exercice.model';
 
 @Injectable({ providedIn: 'root' })
 export class ExerciceService {
-  private apiUrl = 'http://localhost:5030/api/exercicesrespiration';
-
+private apiUrl = 'http://localhost:5030/api/exercices-respiration';
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Exercice[]> {

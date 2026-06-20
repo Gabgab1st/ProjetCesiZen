@@ -1,0 +1,177 @@
+.login-page {
+  min-height: calc(100vh - 64px); // hauteur navbar Material
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background-color: #f5f5f5;
+}
+
+// ── Branding ──────────────────────────────────────────────────────────────────
+
+.login-brand {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.login-logo {
+  height: 64px;
+  width: auto;
+}
+
+.login-tagline {
+  margin: 0.5rem 0 0;
+  color: #666;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+}
+
+// ── Carte ─────────────────────────────────────────────────────────────────────
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08) !important;
+
+  mat-card-header {
+    padding: 1.5rem 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  mat-card-title {
+    font-size: 1.4rem !important;
+    font-weight: 600 !important;
+    color: #2e2e2e;
+    margin-bottom: 0.25rem !important;
+  }
+
+  mat-card-subtitle {
+    font-size: 0.875rem !important;
+    color: #888 !important;
+    margin: 0 !important;
+  }
+
+  mat-card-content {
+    padding: 1.25rem 1.5rem 0;
+  }
+
+  mat-card-actions {
+    padding: 0 1.5rem 1.5rem;
+    text-align: center;
+  }
+}
+
+// ── Bannière d'erreur ─────────────────────────────────────────────────────────
+
+.error-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #fff3f3;
+  border: 1px solid #f5c6c6;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  color: #c62828;
+  font-size: 0.875rem;
+
+  mat-icon {
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+    flex-shrink: 0;
+  }
+}
+
+// ── Formulaire ────────────────────────────────────────────────────────────────
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.forgot-link {
+  text-align: right;
+  margin-top: -0.25rem;
+  margin-bottom: 0.75rem;
+
+  a {
+    font-size: 0.8rem;
+    color: #5c6bc0;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// ── Bouton de soumission ──────────────────────────────────────────────────────
+
+.submit-btn {
+  width: 100%;
+  height: 48px;
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  border-radius: 8px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-spinner {
+  display: inline-block;
+
+  ::ng-deep circle {
+    stroke: #fff;
+  }
+}
+
+// ── Lien d'inscription ────────────────────────────────────────────────────────
+
+.register-link {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #666;
+
+  a {
+    color: #5c6bc0;
+    font-weight: 500;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// ── Responsive ────────────────────────────────────────────────────────────────
+
+@media (max-width: 480px) {
+  .login-card {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+
+    mat-card-header,
+    mat-card-content,
+    mat-card-actions {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
+  .login-page {
+    padding: 0;
+    background-color: #fff;
+  }
+}
