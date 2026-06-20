@@ -42,6 +42,10 @@ import { AuthService } from '../../core/services/auth.service';
             <mat-icon>admin_panel_settings</mat-icon>
             Administration
           </button>
+          <button mat-menu-item *ngIf="isAdmin" routerLink="/admin/users">
+          <mat-icon>group</mat-icon>
+            Utilisateurs
+          </button>
           <button mat-menu-item routerLink="/auth/reset-password">
             <mat-icon>lock_reset</mat-icon>
             Changer mon mot de passe
