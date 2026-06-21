@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31903.59
+# Visual Studio Version 18
+VisualStudioVersion = 18.8.11912.234 insiders
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{50A5AC59-13F6-4C5C-A187-A64A7EB00EEA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CesiZen.API", "backend\CesiZen.API\CesiZen.API.csproj", "{3F72D490-82A1-4F3B-8A09-ED3B1898E21D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CesiZen.Tests", "backend\tests\CesiZen.Tests\CesiZen.Tests.csproj", "{BDBD7682-E6C1-4497-A393-C34E68F6DCB4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E438E2BE-D868-4289-A720-3353D9473E54}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3F72D490-82A1-4F3B-8A09-ED3B1898E21D} = {50A5AC59-13F6-4C5C-A187-A64A7EB00EEA}
+		{BDBD7682-E6C1-4497-A393-C34E68F6DCB4} = {E438E2BE-D868-4289-A720-3353D9473E54}
+		{E438E2BE-D868-4289-A720-3353D9473E54} = {50A5AC59-13F6-4C5C-A187-A64A7EB00EEA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8F1A1C3D-A121-4496-9C39-9D4C93E47005}
